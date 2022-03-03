@@ -4,7 +4,18 @@
 
 int main(){
     srand(time(NULL));
-    int correctNum, guess, counter, choice = 0, max = 10, wins, played = 0;
+    int correctNum, guess, counter, choice = 0, wins, played = 0;
+    int max = 10;
+    FILE *f;
+    f = fopen("updatedMaxNum.txt","r");
+    if(f == NULL){
+        printf("No save file found.");
+        printf("\nSetting max to default. (10)");
+    }
+    else{
+        fscanf(f, "%d", &max);
+        fclose(f);
+    }
     char userInput[2];
     char winStats[100] = "a";
     char result[50];
@@ -52,6 +63,9 @@ int main(){
                 printf("\nPlease enter the max number you would like.");
                 printf("\nDo not enter a negative number or a number greater than the default max 10.\n");
                 scanf("%d", &max);
+                f = fopen("updatedMaxNum.txt", "w");
+                fprintf(f, "%d", max);
+                fclose(f);
                 if(max > 0 && max <= 10){
                     maxCondition = 1;
                 }
@@ -65,6 +79,7 @@ int main(){
             for(int i = 1; i <= played; i++){
                 printf("\n Game %d: ", i);
                 printf("%c ", winStats[i]);
+            fclose(f);
             }
         }
     }
